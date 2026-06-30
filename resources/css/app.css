@@ -1,1 +1,67 @@
 @import "tailwindcss";
+
+/* Colores por defecto (Tema 1 - Azul) */
+:root {
+    --bg-main: #181f32;
+    --bg-screen: #182034;
+    --bg-keypad: #252c46;
+    --text-main: #ffffff;
+    --text-screen: #ffffff;
+
+    /* Botones normales (7, 8, 9...) */
+    --btn-num-bg: #eae3dc;
+    --btn-num-border: #b4a597;
+    --btn-num-text: #444b5a;
+
+    /* Botones de control (DEL, RESET) */
+    --btn-ctrl-bg: #647198;
+    --btn-ctrl-border: #414e73;
+    --btn-ctrl-text: #ffffff;
+
+    /* Botón igual (=) */
+    --btn-eq-bg: #d03f2f;
+    --btn-eq-border: #93261a;
+    --btn-eq-text: #ffffff;
+}
+
+/* Configuración del Tema 2 (Claro) */
+body.theme-2 {
+    --bg-main: #e6e6e6;
+    --bg-screen: #eeeeee;
+    --bg-keypad: #d1d1d1;
+    --text-main: #353535;
+    --text-screen: #353535;
+
+    --btn-num-bg: #e5e4e1;
+    --btn-num-border: #a79e91;
+    --btn-num-text: #353535;
+
+    --btn-ctrl-bg: #377f86;
+    --btn-ctrl-border: #1b6066;
+    --btn-ctrl-text: #ffffff;
+
+    --btn-eq-bg: #ca5502;
+    --btn-eq-border: #873901;
+    --btn-eq-text: #ffffff;
+}
+
+/* Configuración del Tema 3 (Cyberpunk Violeta) */
+body.theme-3 {
+    --bg-main: #17062a;
+    --bg-screen: #1e0836;
+    --bg-keypad: #1e0836;
+    --text-main: #ffe53d;
+    --text-screen: #ffe53d;
+
+    --btn-num-bg: #331c42;
+    --btn-num-border: #861c9f;
+    --btn-num-text: #ffe53d;
+
+    --btn-ctrl-bg: #56077c;
+    --btn-ctrl-border: #bf15f4;
+    --btn-ctrl-text: #ffffff;
+
+    --btn-eq-bg: #00e4d0;
+    --btn-eq-border: #6cf9f1;
+    --btn-eq-text: #1a2327;
+}

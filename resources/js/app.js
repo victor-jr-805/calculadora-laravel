@@ -1,3 +1,53 @@
+// --- LÓGICA DEL SELECTOR DE TEMAS ---
+
+const body = document.body;
+const btnTema1 = document.getElementById("btn-tema-1");
+const btnTema2 = document.getElementById("btn-tema-2");
+const btnTema3 = document.getElementById("btn-tema-3");
+
+// Función para limpiar los estilos de los puntitos apagados
+function resetearPuntitos() {
+    [btnTema1, btnTema2, btnTema3].forEach((btn) => {
+        btn.className =
+            "w-4 h-4 rounded-full inline-block cursor-pointer bg-slate-500/40 hover:bg-slate-400 transition-all duration-200";
+    });
+}
+
+// Función mágica para aplicar el tema elegido
+function aplicarTema(numeroTema) {
+    body.classList.remove("theme-2", "theme-3");
+    resetearPuntitos();
+
+    if (numeroTema === 1) {
+        btnTema1.className =
+            "w-4 h-4 rounded-full inline-block cursor-pointer bg-[var(--btn-eq-bg)] scale-110 shadow transition-all duration-200";
+    } else if (numeroTema === 2) {
+        body.classList.add("theme-2");
+        btnTema2.className =
+            "w-4 h-4 rounded-full inline-block cursor-pointer bg-[var(--btn-eq-bg)] scale-110 shadow transition-all duration-200";
+    } else if (numeroTema === 3) {
+        body.classList.add("theme-3");
+        btnTema3.className =
+            "w-4 h-4 rounded-full inline-block cursor-pointer bg-[var(--btn-eq-bg)] scale-110 shadow transition-all duration-200";
+    }
+
+    // Guardamos la preferencia en la memoria de la computadora
+    localStorage.setItem("tema-preferido", numeroTema);
+}
+
+// Escuchamos los clics en los puntitos
+btnTema1.addEventListener("click", () => aplicarTema(1));
+btnTema2.addEventListener("click", () => aplicarTema(2));
+btnTema3.addEventListener("click", () => aplicarTema(3));
+
+// Al cargar la página, verificamos si ya había un tema guardado antes
+const temaGuardado = localStorage.getItem("tema-preferido");
+if (temaGuardado) {
+    aplicarTema(parseInt(temaGuardado));
+}
+
+// --- (AQUÍ ABAJO CONTINÚA TODO EL RESTO DE TU CÓDIGO VIEJO DE LA PANTALLA Y EL FETCH) ---
+
 // Capturamos las pantallas mediante sus IDs
 const pantalla = document.getElementById("pantalla");
 const pantallaHistorial = document.getElementById("pantalla-historial");
