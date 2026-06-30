@@ -62,31 +62,60 @@ function seleccionarOperacion(op) {
 function calcular() {
     if (operacion === null || reiniciarPantalla) return;
 
-    let resultado = 0;
     const num1 = parseFloat(valorAnterior);
     const num2 = parseFloat(valorActual);
 
-    switch (operacion) {
-        case "+":
-            resultado = num1 + num2;
-            break;
-        case "-":
-            resultado = num1 - num2;
-            break;
-        case "*":
-            resultado = num1 * num2;
-            break;
-        case "/":
-            resultado = num2 === 0 ? "Error" : num1 / num2;
-            break;
-    }
+    // 1. Preparamos la "caja de datos" que le enviaremos a Laravel via POST
+    const datos = {
+        numero1: num1,
+        numero2: num2,
+        operacion: operacion,
+    };
 
-    pantallaHistorial.innerText = `${valorAnterior} ${operacion} ${valorActual} =`;
-    valorActual = resultado.toString();
-    operacion = null;
-    valorAnterior = "";
-    reiniciarPantalla = true;
-    actualizarPantalla();
+    // MEJORA: Ponemos la pantalla en un estado de espera antes de hacer el fetch
+    pantalla.style.opacity = "0.5"; // Hace el número un poco transparente
+
+    // 2. Usamos Fetch para hacer la petición en segundo plano a nuestra ruta de Laravel
+    fetch("/api/calcular", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            // Laravel exige un token de seguridad (CSRF) para proteger las peticiones POST.
+            // Como estamos usando Vite + Tailwind v4 de forma nativa, podemos extraerlo así:
+            "X-CSRF-TOKEN":
+                document.querySelector('input[name="_token"]')?.value || "",
+        },
+        body: JSON.stringify(datos), // Convertimos el objeto JavaScript a texto JSON
+    })
+        .then((respuesta) => {
+            // Si el servidor responde mal (ej: división entre cero), lanzamos un error
+            if (!respuesta.ok)
+                return respuesta.json().then((err) => {
+                    throw err;
+                });
+            return respuesta.json();
+        })
+        .then((data) => {
+            // MEJORA: Restauramos la opacidad cuando llega el resultado
+            pantalla.style.opacity = "1"; // Vuelve a la opacidad normal
+
+            // 3. ¡Éxito! Laravel nos devolvió el resultado matemático fresco desde PHP
+            pantallaHistorial.innerText = `${valorAnterior} ${operacion} ${valorActual} =`;
+            valorActual = data.resultado.toString();
+            operacion = null;
+            valorAnterior = "";
+            reiniciarPantalla = true;
+            actualizarPantalla();
+        })
+        .catch((error) => {
+            // MEJORA: Restauramos la opacidad cuando hay un error
+            pantalla.style.opacity = "1"; // Vuelve a la opacidad normal
+
+            // Si algo falla, mostramos el error en la pantalla digital
+            console.error("Error en la API:", error);
+            pantalla.innerText = error.error || "Err Server";
+            reiniciarPantalla = true;
+        });
 }
 
 function borrarUltimo() {

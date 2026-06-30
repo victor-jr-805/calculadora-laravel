@@ -17,7 +17,7 @@
     style="font-family: 'League Spartan', sans-serif;">
 
     <form id="form-calculadora" action="#" method="POST" class="w-full max-w-md flex flex-col gap-6">
-
+        @csrf
         <div class="flex justify-between items-end text-white px-2">
             <h1 class="text-3xl font-bold tracking-wide">calculadora</h1>
 
