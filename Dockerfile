@@ -1,4 +1,4 @@
-FROM richarvey/nginx-php-fpm:1.10.3
+FROM richarvey/nginx-php-fpm:3.1.6
 
 # Copiar todo el código de nuestro Laravel al servidor web
 COPY . /var/www/html
