@@ -46,7 +46,7 @@ if (temaGuardado) {
     aplicarTema(parseInt(temaGuardado));
 }
 
-// --- (AQUÍ ABAJO CONTINÚA TODO EL RESTO DE TU CÓDIGO VIEJO DE LA PANTALLA Y EL FETCH) ---
+// --- (AQUÍ ABAJO CONTINÚA TODO EL RESTO DE CÓDIGO VIEJO DE LA PANTALLA Y EL FETCH) ---
 
 // Capturamos las pantallas mediante sus IDs
 const pantalla = document.getElementById("pantalla");
