@@ -17,8 +17,13 @@ RUN apk add --no-cache nodejs npm \
     && npm install \
     && npm run build
 
-# Dar permisos correctos a las carpetas de almacenamiento de Laravel
-RUN chown -R application:application /var/www/html/storage /var/www/html/bootstrap/cache
+# --- NUEVO: Crear la base de datos SQLite vacía y ejecutar migraciones si es necesario ---
+RUN mkdir -p database \
+    && touch database/database.sqlite \
+    && php artisan migrate --force
+
+# Dar permisos correctos a las carpetas de almacenamiento y a la base de datos
+RUN chown -R application:application /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 
 # Exponer el puerto por defecto
 EXPOSE 80
