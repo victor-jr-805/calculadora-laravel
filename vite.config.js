@@ -1,29 +1,20 @@
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
-import tailwindcss from "@tailwindcss/vite"; // Plugin vital
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
     plugins: [
         laravel({
             input: ["resources/css/app.css", "resources/js/app.js"],
-            refresh: true, // Esto hace que el navegador se actualice al guardar
+            refresh: true,
         }),
-        tailwindcss({
-            // CONFIGURACIÓN CLAVE PARA EL DISEÑO OSCURO ESMERALDA
-            config: {
-                darkMode: "class",
-                theme: {
-                    extend: {
-                        colors: {
-                            // Definimos el color 'emerald' exacto de la diapositiva
-                            emerald: {
-                                400: "#10b981",
-                                500: "#059669",
-                            },
-                        },
-                    },
-                },
-            },
-        }),
+        tailwindcss(),
     ],
+    // AGREGA ESTE BLOQUE CORREGIDO ABAJO DE LOS PLUGINS:
+    server: {
+        host: "127.0.0.1", // Fuerza a Vite a usar la IP local rápida de Windows
+        hmr: {
+            host: "127.0.0.1", // Evita que se quede buscando "localhost" eternamente
+        },
+    },
 });
