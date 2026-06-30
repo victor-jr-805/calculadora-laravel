@@ -11,13 +11,15 @@ ENV APP_ENV=production
 ENV WEB_DOCUMENT_ROOT=/var/www/html/public
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-# Instalar NodeJS, npm, dependencias de PHP (Composer) y compilar los estilos de Tailwind v4
+# Instalar NodeJS, npm, dependencias de PHP (Composer), limpiar caché y compilar estilos
 RUN apk add --no-cache nodejs npm \
     && composer install --no-dev --optimize-autoloader \
+    && php artisan view:clear \
+    && php artisan config:clear \
     && npm install \
     && npm run build
 
-# --- NUEVO: Crear la base de datos SQLite vacía y ejecutar migraciones si es necesario ---
+# Crear la base de datos SQLite vacía y ejecutar migraciones
 RUN mkdir -p database \
     && touch database/database.sqlite \
     && php artisan migrate --force
